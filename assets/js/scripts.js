@@ -585,6 +585,7 @@ jQuery(document).ready(function() {
 		var menu = jQuery('#Top_bar #menu');
 		var menuWrap = menu.closest('.menu_wrapper');
 		el.toggleClass('active');
+		el.attr('aria-expanded', el.hasClass('active'));
 		if (el.hasClass('is-sticky') && el.hasClass('active')) {
 			var top = 0;
 			if (menuWrap.length) top = menuWrap.offset().top;

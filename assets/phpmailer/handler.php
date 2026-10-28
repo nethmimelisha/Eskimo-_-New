@@ -1,11 +1,8 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+header('Content-Type: application/json; charset=utf-8');
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
 error_reporting(E_ALL);
-/*
-Tested working with PHP5.4 and above (including PHP 7 )
-
- */
 require_once './vendor/autoload.php';
 
 use FormGuide\Handlx\FormHandler;
@@ -14,7 +11,8 @@ use FormGuide\Handlx\FormHandler;
 $pp = new FormHandler(); 
 
 $validator = $pp->getValidator();
-$validator->fields(['Name','Email'])->areRequired()->maxLength(50);
+$validator->fields(['Name','Email','Message'])->areRequired()->maxLength(6000);
+$validator->fields(['Name','Email'])->maxLength(50);
 $validator->fields(['Subject'])->maxLength(50);
 $validator->field('Email')->isEmail();
 $validator->field('Message')->maxLength(6000);
@@ -22,6 +20,6 @@ $validator->field('Message')->maxLength(6000);
 
 
 
-$pp->sendEmailTo('someone@gmail.com'); // ← Your email here
+$pp->sendEmailTo('info@eskimo.com');
 
 echo $pp->process($_POST);

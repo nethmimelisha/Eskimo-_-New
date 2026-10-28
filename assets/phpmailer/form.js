@@ -1,62 +1,49 @@
 
-jQuery(function()
-{
-    function after_form_submitted(data) 
-    {
-        if(data.result == 'success')
-        {
-            jQuery('form#reused_form').hide();
-            jQuery('#success_message').show();
-            jQuery('#error_message').hide();
-        }
-        else
-        {
-            jQuery('#error_message').append('<ul></ul>');
+jQuery(function() {
+    var $form = jQuery('#reused_form');
+    var $submitButton = $form.find('button[type="submit"]');
+    var submitLabel = $submitButton.text();
 
-            jQuery.each(data.errors,function(key,val)
-            {
-             jQuery('#error_message ul').append('<li>'+key+':'+val+'</li>');
-            });
-            jQuery('#success_message').hide();
-            jQuery('#error_message').show();
+    function showError(message, errors) {
+        var $errorMessage = jQuery('#error_message');
+        var $errorList = jQuery('<ul>');
 
-            //reverse the response on the button
-            jQuery('button[type="button"]', $form).each(function()
-            {
-                $btn = jQuery(this);
-                label = $btn.prop('orig_label');
-                if(label)
-                {
-                    $btn.prop('type','submit' ); 
-                    $btn.text(label);
-                    $btn.prop('orig_label','');
-                }
-            });
-            
-        }//else
+        jQuery.each(errors || {}, function(key, value) {
+            $errorList.append(jQuery('<li>').text(key + ': ' + value));
+        });
+
+        $errorMessage.find('ul').remove();
+        $errorMessage.append($errorList).prepend(document.createTextNode(message));
+        jQuery('#success_message').hide();
+        $errorMessage.show();
     }
 
-	jQuery('#reused_form').submit(function(e)
-      {
-        e.preventDefault();
+    $form.on('submit', function(event) {
+        event.preventDefault();
+        $submitButton.prop('disabled', true).text('Sending...');
+        jQuery('#error_message').hide().empty();
 
-        $form = jQuery(this);
-        //show some response on the button
-        jQuery('button[type="submit"]', $form).each(function()
-        {
-            $btn = jQuery(this);
-            $btn.prop('type','button' ); 
-            $btn.prop('orig_label',$btn.text());
-            $btn.text('Sending ...');
+        jQuery.ajax({
+            type: 'POST',
+            url: 'assets/phpmailer/handler.php',
+            data: $form.serialize(),
+            dataType: 'json'
+        }).done(function(data) {
+            if (data && data.result === 'success') {
+                $form.hide();
+                jQuery('#success_message').show();
+                return;
+            }
+
+            if (data && data.result === 'validation_failed') {
+                showError('Please check your message and try again.', data.errors);
+            } else {
+                showError('We could not send your message. Please try again or email info@eskimo.com.', {});
+            }
+            $submitButton.prop('disabled', false).text(submitLabel);
+        }).fail(function() {
+            showError('We could not send your message. Please try again or email info@eskimo.com.', {});
+            $submitButton.prop('disabled', false).text(submitLabel);
         });
-        
-               jQuery.ajax({
-                type: "POST",
-                url: '../../phpmailer/handler.php',
-                data: $form.serialize(),
-                success: after_form_submitted,
-                dataType: 'json' 
-            });        
-        
-      });	
+    });
 });
