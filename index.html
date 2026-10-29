@@ -123,16 +123,16 @@
           Knitwear crafted<br>since 1870
         </rs-layer>
 
-        <rs-layer id="slider-1-slide-1-layer-9" class="rs-layer-static" data-type="image" data-rsp_ch="on" data-xy="x:r;xo:140px,140px,87px,87px;y:b;yo:46px,46px,28px,28px;" data-text="w:normal;s:20,20,12,12;l:0,0,15,15;" data-dim="w:50px,50px,31px,31px;h:50px,50px,31px,31px;" data-actions="o:click;a:jumptoslide;slide:previous;" data-basealign="slide" data-onslides="s:1;" data-frame_999="o:0;st:w;" style="z-index:13;cursor:pointer;">
-          <img src="images/home2-slider-arrow-left.png" alt="" width="50" height="50" loading="lazy" decoding="async">
+        <rs-layer id="slider-1-slide-1-layer-9" class="rs-layer-static" role="button" tabindex="0" aria-label="Previous slide" data-slider-control="previous" data-type="image" data-rsp_ch="on" data-xy="x:r;xo:140px,140px,87px,87px;y:b;yo:46px,46px,28px,28px;" data-text="w:normal;s:20,20,12,12;l:0,0,15,15;" data-dim="w:50px,50px,31px,31px;h:50px,50px,31px,31px;" data-basealign="slide" data-onslides="s:1;" data-frame_999="o:0;st:w;" style="z-index:13;cursor:pointer;">
+          <img src="images/home2-slider-arrow-left.png" alt="Previous slide" width="50" height="50" loading="lazy" decoding="async">
         </rs-layer>
 
-        <rs-layer id="slider-1-slide-1-layer-11" class="rs-layer-static" data-type="image" data-rsp_ch="on" data-xy="xo:62px,62px,38px,38px;y:b;yo:50px,50px,31px,31px;" data-text="w:normal;s:20,20,12,12;l:0,0,15,15;" data-dim="w:50px,50px,31px,31px;h:50px,50px,31px,31px;" data-vbility="t,t,f,f" data-actions="o:click;a:scrollbelow;sp:1000ms;e:power1.inOut;" data-basealign="slide" data-onslides="s:1;" data-frame_999="o:0;st:w;" style="z-index:14;cursor:pointer;">
-          <img src="images/home2-slider-arrow-down.png" alt="" width="50" height="50" loading="lazy" decoding="async">
+        <rs-layer id="slider-1-slide-1-layer-11" class="rs-layer-static" role="button" tabindex="0" aria-label="Scroll down" data-slider-control="scroll" data-type="image" data-rsp_ch="on" data-xy="xo:62px,62px,38px,38px;y:b;yo:50px,50px,31px,31px;" data-text="w:normal;s:20,20,12,12;l:0,0,15,15;" data-dim="w:50px,50px,31px,31px;h:50px,50px,31px,31px;" data-vbility="t,t,f,f" data-basealign="slide" data-onslides="s:1;" data-frame_999="o:0;st:w;" style="z-index:14;cursor:pointer;">
+          <img src="images/home2-slider-arrow-down.png" alt="Scroll down" width="50" height="50" loading="lazy" decoding="async">
         </rs-layer>
 
-        <rs-layer id="slider-1-slide-1-layer-12" class="rs-layer-static" data-type="image" data-rsp_ch="on" data-xy="x:r;xo:60px,60px,37px,37px;y:b;yo:50px,50px,31px,31px;" data-text="w:normal;s:20,20,12,12;l:0,0,15,15;" data-dim="w:42px,42px,25px,25px;h:42px,42px,25px,25px;" data-actions="o:click;a:jumptoslide;slide:next;" data-basealign="slide" data-onslides="s:1;" data-frame_999="o:0;st:w;" style="z-index:12;cursor:pointer;">
-          <img src="images/home2-slider-arrow-right.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+        <rs-layer id="slider-1-slide-1-layer-12" class="rs-layer-static" role="button" tabindex="0" aria-label="Next slide" data-slider-control="next" data-type="image" data-rsp_ch="on" data-xy="x:r;xo:60px,60px,37px,37px;y:b;yo:50px,50px,31px,31px;" data-text="w:normal;s:20,20,12,12;l:0,0,15,15;" data-dim="w:42px,42px,25px,25px;h:42px,42px,25px,25px;" data-basealign="slide" data-onslides="s:1;" data-frame_999="o:0;st:w;" style="z-index:12;cursor:pointer;">
+          <img src="images/home2-slider-arrow-right.png" alt="Next slide" width="42" height="42" loading="lazy" decoding="async">
         </rs-layer>
       </rs-static-layers>
 
@@ -140,6 +140,42 @@
     </rs-module>
   </rs-module-wrap>
 </div>
+<script>
+  document.addEventListener("click", function(event) {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+
+    const control = event.target.closest('rs-layer[role="button"][data-slider-control]');
+    if (!control) {
+      return;
+    }
+
+    event.preventDefault();
+    if (control.dataset.sliderControl === "previous") {
+      window.revapi1.revprev();
+    } else if (control.dataset.sliderControl === "next") {
+      window.revapi1.revnext();
+    } else if (control.dataset.sliderControl === "scroll") {
+      document.querySelector("#Content").scrollIntoView({ behavior: "smooth" });
+    }
+  });
+
+  document.addEventListener("keydown", function(event) {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+
+    const control = event.target.closest('rs-layer[role="button"][data-slider-control]');
+    if (!control || event.repeat || (event.key !== "Enter" && event.key !== " ")) {
+      return;
+    }
+
+    event.preventDefault();
+    control.click();
+  });
+
+</script>
 
 			</header>
 		</div>
@@ -220,11 +256,7 @@
                 <div class="container">
                     <div class="column one-third">
                         <aside id="media_image-2" class="widget widget_media_image"><img width="200" height="50" src="images/eskimo.png" alt="Eskimo Fashions" class="image wp-image-31 attachment-full size-full" style="max-width: 100%; height: auto;" loading="lazy" decoding="async">
-                            <p style="font-size: 30px; line-height: 30px">
-                                <p style="font-size: 30px; line-height: 30px">
-                                    <a style="color: #f2211d;" href="https://www.youtube.com/@carlosembellishers4252"><i class="icon-youtube"></i></a><a style="color: #4767aa;" href="https://www.facebook.com/p/Carlos-Embellishers-100068855814568/?_rdc=2&_rdr"><i class="icon-facebook-circled"></i></a><a style="color: #1da1f2;" href="http://www.linkedin.com/in/carlos-holdings-14989221a"><i class="icon-linkedin-circled"></i></a>
-                                </p>
-                            </p>
+                            <p class="footer-social-links" style="font-size: 30px; line-height: 30px;"><a style="color: #f2211d;" aria-label="YouTube" href="https://www.youtube.com/@carlosembellishers4252"><i class="icon-youtube"></i></a><a style="color: #4767aa;" aria-label="Facebook" href="https://www.facebook.com/p/Carlos-Embellishers-100068855814568/?_rdc=2&_rdr"><i class="icon-facebook-circled"></i></a><a style="color: #1da1f2;" aria-label="LinkedIn" href="https://www.linkedin.com/in/carlos-holdings-14989221a"><i class="icon-linkedin-circled"></i></a></p>
                         </aside>
                     </div>
                     

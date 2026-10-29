@@ -2884,6 +2884,18 @@ rs-progress {
 	width: 48%;
 	box-sizing: border-box;
 }
+.contact-page-hero-content {
+	padding: 30px 0 0;
+}
+.contact-page-hero-title {
+	width: 44%;
+	max-width: 520px;
+	margin: 0;
+	color: #4989fd;
+	font-size: clamp(24px, 3vw, 36px);
+	line-height: 1.2;
+	box-sizing: border-box;
+}
 .carlo-parent-section {
 	padding: 76px 0 !important;
 	background: linear-gradient(135deg, #f4f7fc 0%, #e8effb 100%);
@@ -3005,24 +3017,49 @@ rs-progress {
 		font-size: 16px;
 	}
 }
-#Top_bar #logo img {
+#Header #Top_bar .logo #logo img {
 	width: auto !important;
 	height: auto !important;
 	max-width: 180px !important;
 	max-height: 60px !important;
 	object-fit: contain;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 767.98px) {
 	a.action_button {
 		display: none;
+	}
+	.contact-page-hero {
+		padding-top: 80px !important;
+		padding-bottom: 80px !important;
+	}
+	.contact-page-hero-content {
+		padding: 0;
+	}
+	.contact-page-hero-title {
+		width: 29%;
+		max-width: 220px;
+		font-size: clamp(20px, 5.7vw, 26px);
 	}
 	.page-header-title {
 		width: 48%;
 		font-size: clamp(20px, 5.5vw, 24px) !important;
 	}
-	#Top_bar #logo img {
+	#Header #Top_bar .logo #logo img {
 		max-width: 150px !important;
 		max-height: 50px !important;
+	}
+}
+@media only screen and (min-width: 768px) and (max-width: 959.98px) {
+	.contact-page-hero {
+		padding-top: 80px !important;
+		padding-bottom: 80px !important;
+	}
+	.contact-page-hero-content {
+		padding: 0;
+	}
+	.contact-page-hero-title {
+		width: 29%;
+		font-size: clamp(22px, 3vw, 26px);
 	}
 }
 .action_button {
